@@ -26,4 +26,6 @@
         <activity android:name=".FragmentsActivity"/>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

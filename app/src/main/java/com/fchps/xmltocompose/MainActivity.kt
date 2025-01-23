@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.fchps.xmltocompose.composables.MainScreen
 import com.fchps.xmltocompose.ui.theme.XmlToComposeTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
