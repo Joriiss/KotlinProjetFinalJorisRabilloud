@@ -14,21 +14,50 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.fchps.xmltocompose.data.api.model.MessageResponse
 import com.fchps.xmltocompose.repository.MessageRepository
-import kotlinx.coroutines.launch
 import com.fchps.xmltocompose.viewmodel.MessageViewModel
 import com.fchps.xmltocompose.viewmodel.MessageViewModelFactory
-import android.widget.Toast
 import androidx.compose.foundation.clickable
-import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 
 @Composable
 fun MessageScreen(
     messageRepository: MessageRepository,
     innerPaddingValues: PaddingValues
 ) {
+    val navController = rememberNavController()
+    NavHost(navController, startDestination = "messageList") {
+        composable("messageList") {
+            MessageListScreen(messageRepository, innerPaddingValues, navController)
+        }
+        composable(
+            "messageDetail/{messageId}/{messageTitle}/{messageBody}",
+            arguments = listOf(
+                navArgument("messageId") { type = NavType.StringType },
+                navArgument("messageTitle") { type = NavType.StringType },
+                navArgument("messageBody") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val messageId = backStackEntry.arguments?.getString("messageId") ?: ""
+            val messageTitle = backStackEntry.arguments?.getString("messageTitle") ?: ""
+            val messageBody = backStackEntry.arguments?.getString("messageBody") ?: ""
+            MessageDetailScreen(MessageResponse(messageId, messageTitle, messageBody))
+        }
+    }
+}
+
+@Composable
+fun MessageListScreen(
+    messageRepository: MessageRepository,
+    innerPaddingValues: PaddingValues,
+    navController: NavController
+) {
     val viewModel: MessageViewModel = viewModel(factory = MessageViewModelFactory(messageRepository))
     val messages by viewModel.messages.observeAsState(emptyList())
-    val context = LocalContext.current
 
     Box(modifier = Modifier
         .fillMaxSize()
@@ -47,7 +76,7 @@ fun MessageScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                Toast.makeText(context, "ID: ${message.id}", Toast.LENGTH_SHORT).show()
+                                navController.navigate("messageDetail/${message.id}/${message.title}/${message.body}")
                             },
                         colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
                     ) {
@@ -69,7 +98,7 @@ fun MessageScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Add Next Post")
+                Text("See Next Country")
             }
         }
     }

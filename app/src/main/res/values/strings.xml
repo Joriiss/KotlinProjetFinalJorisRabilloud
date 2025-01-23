@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">XmlToCompose</string>
+    <string name="title_activity_message_detail_screen">MessageDetailScreen</string>
 </resources>
