@@ -52,6 +52,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.activity)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -62,4 +65,5 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation("io.coil-kt:coil-compose:2.4.0")
 }

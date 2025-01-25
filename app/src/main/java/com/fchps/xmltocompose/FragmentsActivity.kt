@@ -15,16 +15,26 @@ import com.fchps.xmltocompose.data.api.RetroFitSingleton
 class FragmentsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize Retrofit instance using the singleton pattern
         val retrofit = RetroFitSingleton.getInstance()
+
+        // Create the MessageApi interface to define API calls
         val api = retrofit.create(MessageApi::class.java)
+
+        // Create the repository that will handle the communication between ViewModel and the API
         val repository = MessageRepositoryImpl(api)
 
+        // Set up the composable content of the activity
         setContent {
             XmlToComposeTheme {
+                // Scaffold is the main layout structure for your UI
                 Scaffold { innerPadding ->
+
+                    // Pass the message repository and inner padding to the MessageScreen composable
                     MessageScreen(
-                        innerPaddingValues = innerPadding,
-                        messageRepository = repository
+                        innerPaddingValues = innerPadding, // Padding values for proper layout spacing
+                        messageRepository = repository // Provide the repository for fetching country data
                     )
                 }
             }

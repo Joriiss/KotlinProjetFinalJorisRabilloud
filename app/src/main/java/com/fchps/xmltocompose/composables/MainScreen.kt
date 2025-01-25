@@ -27,6 +27,11 @@ import com.fchps.xmltocompose.viewmodel.MainViewModelBis
 import android.widget.Toast
 import androidx.compose.ui.platform.LocalContext
 import android.util.Patterns
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.res.painterResource
+import com.fchps.xmltocompose.R
 
 @Composable
 fun MainScreen(
@@ -35,20 +40,32 @@ fun MainScreen(
     onSubmit: () -> Unit,
     onGoToFragmentsActivity: () -> Unit
 ) {
+    // Get the current values of email and password from the ViewModel
     val email by viewModelBis.email
     val password by viewModelBis.password
     val context = LocalContext.current
 
+    // Main container for the screen
     Column(
         modifier = Modifier
             .padding(innerPaddingValues)
             .fillMaxSize()
             .background(Color.White)
             .padding(start = 16.dp, end = 16.dp, top = 44.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
+        // Display the app logo
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = "App Logo",
+            modifier = Modifier.size(128.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Display the title
         Text(
-            text = "World Country List",
+            text = "World Countries List",
             fontSize = 32.sp,
             color = Color.Black,
             textAlign = TextAlign.Center,
@@ -58,6 +75,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Email input field
         OutlinedTextField(
             value = email,
             onValueChange = { newMail ->
@@ -74,6 +92,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        // Password input field
         OutlinedTextField(
             value = password,
             onValueChange = { newPassword ->
@@ -91,6 +110,7 @@ fun MainScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        // Login button
         Button(
             onClick = {
                 if (email.isEmpty() || password.isEmpty()) {
